@@ -1,30 +1,30 @@
 from pymonad.maybe import Just, Nothing
+from pymonad.tools import curry
 
-def to_left(num):
-    def _step(pole):
-        l, r = pole
-        new = (l + num, r)
-        return Nothing if abs(new[0] - new[1]) > 4 else Just(new)
-    return _step
+@curry(2)
+def to_left(num, pole):
+    l, r = pole
+    new = (l + num, r)
+    return Nothing if abs(new[0] - new[1]) > 4 else Just(new)
 
-def to_right(num):
-    def _step(pole):
-        l, r = pole
-        new = (l, r + num)
-        return Nothing if abs(new[0] - new[1]) > 4 else Just(new)
-    return _step
+@curry(2)
+def to_right(num, pole):
+    l, r = pole
+    new = (l, r + num)
+    return Nothing if abs(new[0] - new[1]) > 4 else Just(new)
 
+@curry(1)
 def banana(pole):
     return Nothing
 
 def begin():
     return Just((0, 0))
 
-def show(m: Just or Nothing):
-    if m == Nothing:
+def show(maybe_pole):
+    if maybe_pole == Nothing:
         print("Канатоходец упал!")
     else:
-        l, r = m.value
+        l, r = maybe_pole.value
         print(f"Успешно: птиц слева={l}, справа={r}")
 
 
